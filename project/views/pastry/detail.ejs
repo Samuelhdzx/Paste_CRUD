@@ -1,6 +1,4 @@
-<%- include('../layout/main', { title: pastry.nombre }) %>
-
-<% function body() { %>
+<% function renderContent() { %>
   <section class="pastry-detail">
     <div class="pastry-detail-content">
       <div class="pastry-detail-image">
@@ -67,4 +65,7 @@
   </section>
 <% } %>
 
-<% locals.body = body %>
+<%- include('../layout/main', { 
+  title: pastry.nombre,
+  body: renderContent 
+}) %>
