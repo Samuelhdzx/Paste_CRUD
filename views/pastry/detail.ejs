@@ -1,0 +1,71 @@
+<% function renderContent() { %>
+  <section class="pastry-detail">
+    <div class="pastry-detail-content">
+      <div class="pastry-detail-image">
+        <img src="<%= pastry.imagen %>" alt="<%= pastry.nombre %>">
+        <span class="pastry-category"><%= pastry.categoria %></span>
+        <% if (!pastry.disponible) { %>
+          <div class="availability-badge large">No Disponible</div>
+        <% } %>
+      </div>
+      
+      <div class="pastry-detail-info">
+        <div class="pastry-detail-header">
+          <h1><%= pastry.nombre %></h1>
+          <span class="pastry-price">$<%= pastry.precio.toFixed(2) %></span>
+        </div>
+        
+        <div class="pastry-meta">
+          <div class="pastry-meta-item">
+            <i class="fas fa-user"></i>
+            <span>Creado por: <%= pastry.creador.nombre %></span>
+          </div>
+          <div class="pastry-meta-item">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Fecha: <%= pastry.fechaCreacion.toLocaleDateString() %></span>
+          </div>
+        </div>
+        
+        <div class="pastry-description">
+          <h3>Descripción</h3>
+          <p><%= pastry.descripcion %></p>
+        </div>
+        
+        <% if (pastry.ingredientes && pastry.ingredientes.length > 0) { %>
+          <div class="pastry-ingredients">
+            <h3>Ingredientes</h3>
+            <ul>
+              <% pastry.ingredientes.forEach(ingrediente => { %>
+                <li><i class="fas fa-check"></i> <%= ingrediente %></li>
+              <% }) %>
+            </ul>
+          </div>
+        <% } %>
+        
+        <% if (locals.isAuthenticated && (locals.isAdmin || locals.user.id === pastry.creador._id.toString())) { %>
+          <div class="pastry-actions">
+            <a href="/pasteles/<%= pastry._id %>/editar" class="btn btn-primary">
+              <i class="fas fa-edit"></i> Editar
+            </a>
+            <form action="/pasteles/<%= pastry._id %>?_method=DELETE" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este pastel?');">
+              <button type="submit" class="btn btn-danger">
+                <i class="fas fa-trash-alt"></i> Eliminar
+              </button>
+            </form>
+          </div>
+        <% } %>
+      </div>
+    </div>
+    
+    <div class="back-link">
+      <a href="/pasteles">
+        <i class="fas fa-arrow-left"></i> Volver a todos los pasteles
+      </a>
+    </div>
+  </section>
+<% } %>
+
+<%- include('../layout/main', { 
+  title: pastry.nombre,
+  body: renderContent 
+}) %>
