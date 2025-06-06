@@ -1,6 +1,4 @@
-<%- include('../layout/main', { title: `Editar ${user.nombre}` }) %>
-
-<% function body() { %>
+<% function renderContent() { %>
   <section class="form-section">
     <div class="form-container">
       <div class="form-header">
@@ -47,4 +45,7 @@
   </section>
 <% } %>
 
-<% locals.body = body %>
+<%- include('../layout/main', { 
+  title: `Editar ${user.nombre}`,
+  body: renderContent 
+}) %>

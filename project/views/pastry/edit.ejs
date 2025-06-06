@@ -1,5 +1,4 @@
-<% 
-const content = `
+<% function renderContent() { %>
   <section class="form-section">
     <div class="form-container">
       <div class="form-header">
@@ -87,98 +86,9 @@ const content = `
       document.getElementById('file-name').textContent = fileName;
     });
   </script>
-`;
-%>
+<% } %>
 
 <%- include('../layout/main', { 
   title: `Editar ${pastry.nombre}`,
-  body: function() { %>
-    <section class="form-section">
-      <div class="form-container">
-        <div class="form-header">
-          <h1>Editar Pastel</h1>
-          <p>Actualiza la información de "<%= pastry.nombre %>"</p>
-        </div>
-        
-        <% if (error) { %>
-          <div class="alert alert-error">
-            <i class="fas fa-exclamation-circle"></i>
-            <%= error %>
-          </div>
-        <% } %>
-        
-        <form action="/pasteles/<%= pastry._id %>?_method=PUT" method="POST" enctype="multipart/form-data" class="form">
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="nombre">Nombre del Pastel</label>
-              <input type="text" id="nombre" name="nombre" placeholder="Ej. Pastel de Chocolate" value="<%= pastry.nombre %>" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="categoria">Categoría</label>
-              <select id="categoria" name="categoria">
-                <option value="Pasteles" <%= pastry.categoria === 'Pasteles' ? 'selected' : '' %>>Pasteles</option>
-                <option value="Tartas" <%= pastry.categoria === 'Tartas' ? 'selected' : '' %>>Tartas</option>
-                <option value="Cupcakes" <%= pastry.categoria === 'Cupcakes' ? 'selected' : '' %>>Cupcakes</option>
-                <option value="Galletas" <%= pastry.categoria === 'Galletas' ? 'selected' : '' %>>Galletas</option>
-                <option value="Otros" <%= pastry.categoria === 'Otros' ? 'selected' : '' %>>Otros</option>
-              </select>
-            </div>
-            
-            <div class="form-group">
-              <label for="precio">Precio ($)</label>
-              <input type="number" id="precio" name="precio" step="0.01" min="0" placeholder="Ej. 299.99" value="<%= pastry.precio %>" required>
-            </div>
-            
-            <div class="form-group form-group-full">
-              <label for="descripcion">Descripción</label>
-              <textarea id="descripcion" name="descripcion" rows="4" placeholder="Describe los detalles de tu pastel..." required><%= pastry.descripcion %></textarea>
-            </div>
-            
-            <div class="form-group form-group-full">
-              <label for="ingredientes">Ingredientes (separados por comas)</label>
-              <textarea id="ingredientes" name="ingredientes" rows="3" placeholder="Ej. Harina, Azúcar, Huevos, Chocolate"><%= pastry.ingredientes ? pastry.ingredientes.join(', ') : '' %></textarea>
-            </div>
-            
-            <div class="form-group form-group-full">
-              <label for="imagen">Imagen del Pastel</label>
-              <div class="current-image">
-                <img src="<%= pastry.imagen %>" alt="<%= pastry.nombre %>" class="thumbnail">
-                <p>Imagen actual</p>
-              </div>
-              <div class="file-input">
-                <input type="file" id="imagen" name="imagen" accept="image/*">
-                <label for="imagen" class="file-label">
-                  <i class="fas fa-upload"></i>
-                  <span>Cambiar imagen</span>
-                </label>
-                <div id="file-name" class="file-name">Mantener imagen actual</div>
-              </div>
-            </div>
-            
-            <div class="form-group">
-              <div class="checkbox-group">
-                <input type="checkbox" id="disponible" name="disponible" <%= pastry.disponible ? 'checked' : '' %>>
-                <label for="disponible">Disponible para venta</label>
-              </div>
-            </div>
-          </div>
-          
-          <div class="form-actions">
-            <a href="/pasteles/<%= pastry._id %>" class="btn btn-outline">Cancelar</a>
-            <button type="submit" class="btn btn-primary">
-              <i class="fas fa-save"></i> Guardar Cambios
-            </button>
-          </div>
-        </form>
-      </div>
-    </section>
-
-    <script>
-      document.getElementById('imagen').addEventListener('change', function(e) {
-        const fileName = e.target.files[0] ? e.target.files[0].name : 'Mantener imagen actual';
-        document.getElementById('file-name').textContent = fileName;
-      });
-    </script>
-  <% } 
+  body: renderContent 
 }) %>

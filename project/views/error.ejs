@@ -1,6 +1,4 @@
-<%- include('layout/main', { title: title || 'Error' }) %>
-
-<% function body() { %>
+<% function renderContent() { %>
   <section class="error-section">
     <div class="error-container">
       <div class="error-icon">
@@ -17,4 +15,7 @@
   </section>
 <% } %>
 
-<% locals.body = body %>
+<%- include('layout/main', { 
+  title: title || 'Error',
+  body: renderContent 
+}) %>

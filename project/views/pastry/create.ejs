@@ -1,4 +1,6 @@
-<% function renderContent() { %>
+<%- include('../layout/main', { title: 'Nuevo Pastel' }) %>
+
+<% function body() { %>
   <section class="form-section">
     <div class="form-container">
       <div class="form-header">
@@ -85,7 +87,4 @@
   </script>
 <% } %>
 
-<%- include('../layout/main', { 
-  title: 'Nuevo Pastel',
-  body: renderContent 
-}) %>
+<% locals.body = body %>

@@ -17,7 +17,7 @@
   <%- include('../partials/header') %>
   
   <main class="container">
-  <%- body %>
+    <%- typeof body === 'function' ? body() : body %>
   </main>
   
   <%- include('../partials/footer') %>

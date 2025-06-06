@@ -1,7 +1,4 @@
-<% 
-/* Define the content directly without template literals */
-function renderContent() { 
-%>
+<% function renderContent() { %>
   <section class="pastries-section">
     <div class="pastries-header">
       <h1>Nuestros Pasteles</h1>
@@ -83,9 +80,7 @@ function renderContent() {
       </div>
     <% } %>
   </section>
-<% 
-} 
-%>
+<% } %>
 
 <%- include('../layout/main', { 
   title: 'Pasteles', 
