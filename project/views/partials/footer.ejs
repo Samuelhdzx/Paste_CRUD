@@ -1,0 +1,56 @@
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <i class="fas fa-birthday-cake"></i>
+        <h3>Dulce Delicia</h3>
+        <p>Los mejores pasteles, con todo el amor</p>
+      </div>
+      
+      <div class="footer-links">
+        <div class="footer-section">
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="/pasteles">Inicio</a></li>
+            <li><a href="/pasteles?categoria=Pasteles">Pasteles</a></li>
+            <li><a href="/pasteles?categoria=Tartas">Tartas</a></li>
+            <li><a href="/pasteles?categoria=Cupcakes">Cupcakes</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Mi Cuenta</h4>
+          <ul>
+            <% if (locals.isAuthenticated) { %>
+              <li><a href="/usuarios/<%= locals.user.id %>">Perfil</a></li>
+              <li><a href="/pasteles/mis-pasteles">Mis Pasteles</a></li>
+              <li><a href="/logout">Cerrar Sesión</a></li>
+            <% } else { %>
+              <li><a href="/login">Iniciar Sesión</a></li>
+              <li><a href="/registro">Registro</a></li>
+            <% } %>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Contacto</h4>
+          <ul>
+            <li><i class="fas fa-phone"></i> +123 456 7890</li>
+            <li><i class="fas fa-envelope"></i> info@dulcedelicia.com</li>
+            <li><i class="fas fa-map-marker-alt"></i> Calle Dulce 123, Ciudad</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; <%= new Date().getFullYear() %> Dulce Delicia. Todos los derechos reservados.</p>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-pinterest"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>

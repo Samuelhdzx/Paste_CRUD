@@ -1,0 +1,93 @@
+<% 
+/* Define the content directly without template literals */
+function renderContent() { 
+%>
+  <section class="pastries-section">
+    <div class="pastries-header">
+      <h1>Nuestros Pasteles</h1>
+      <p>Descubre nuestras deliciosas creaciones</p>
+    </div>
+    
+    <div class="filters">
+      <form class="search-form" action="/pasteles" method="GET">
+        <div class="search-input">
+          <input 
+            type="text" 
+            name="busqueda" 
+            placeholder="Buscar pasteles..." 
+            value="<%= busqueda %>"
+          >
+          <button type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+        
+        <div class="filter-select">
+          <label for="categoria">Categoría:</label>
+          <select name="categoria" id="categoria" onchange="this.form.submit()">
+            <option value="Todas" <%= categoriaActual === 'Todas' ? 'selected' : '' %>>Todas</option>
+            <% categorias.forEach(cat => { %>
+              <option value="<%= cat %>" <%= categoriaActual === cat ? 'selected' : '' %>><%= cat %></option>
+            <% }) %>
+          </select>
+        </div>
+      </form>
+      
+      <% if (locals.isAuthenticated) { %>
+        <a href="/pasteles/crear" class="btn btn-primary">
+          <i class="fas fa-plus"></i> Nuevo Pastel
+        </a>
+      <% } %>
+    </div>
+    
+    <% if (pastries.length === 0) { %>
+      <div class="empty-state">
+        <i class="fas fa-birthday-cake"></i>
+        <h2>No hay pasteles disponibles</h2>
+        <p>
+          <% if (busqueda || categoriaActual !== 'Todas') { %>
+            No se encontraron pasteles con los filtros actuales.
+            <a href="/pasteles">Ver todos los pasteles</a>
+          <% } else if (locals.isAuthenticated) { %>
+            ¡Sé el primero en crear un pastel!
+            <a href="/pasteles/crear" class="btn btn-primary">Crear Pastel</a>
+          <% } else { %>
+            ¡Regístrate y sé el primero en compartir tus creaciones!
+            <a href="/registro" class="btn btn-primary">Registro</a>
+          <% } %>
+        </p>
+      </div>
+    <% } else { %>
+      <div class="pastries-grid">
+        <% pastries.forEach(pastry => { %>
+          <div class="pastry-card <%= !pastry.disponible ? 'not-available' : '' %>">
+            <div class="pastry-image">
+              <img src="<%= pastry.imagen %>" alt="<%= pastry.nombre %>">
+              <span class="pastry-category"><%= pastry.categoria %></span>
+              <% if (!pastry.disponible) { %>
+                <div class="availability-badge">No Disponible</div>
+              <% } %>
+            </div>
+            
+            <div class="pastry-content">
+              <h3><%= pastry.nombre %></h3>
+              <p class="pastry-description"><%= pastry.descripcion.substring(0, 80) %><%= pastry.descripcion.length > 80 ? '...' : '' %></p>
+              <p class="pastry-creator">Por: <%= pastry.creador.nombre %></p>
+              <div class="pastry-footer">
+                <span class="pastry-price">$<%= pastry.precio.toFixed(2) %></span>
+                <a href="/pasteles/<%= pastry._id %>" class="btn btn-sm">Ver Detalles</a>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </section>
+<% 
+} 
+%>
+
+<%- include('../layout/main', { 
+  title: 'Pasteles', 
+  body: renderContent
+}) %>

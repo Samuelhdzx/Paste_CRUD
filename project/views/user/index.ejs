@@ -1,0 +1,63 @@
+<%- include('../layout/main', { 
+  title: 'Usuarios',
+  body: function() { %>
+    <section class="users-section">
+      <div class="section-header">
+        <h1>Administrar Usuarios</h1>
+        <p>Gestión de usuarios del sistema</p>
+      </div>
+      
+      <% if (users.length === 0) { %>
+        <div class="empty-state">
+          <i class="fas fa-users"></i>
+          <h2>No hay usuarios registrados</h2>
+        </div>
+      <% } else { %>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Fecha de Registro</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% users.forEach(user => { %>
+                <tr>
+                  <td><%= user.nombre %></td>
+                  <td><%= user.email %></td>
+                  <td>
+                    <span class="badge <%= user.rol === 'admin' ? 'badge-admin' : 'badge-user' %>">
+                      <%= user.rol === 'admin' ? 'Administrador' : 'Usuario' %>
+                    </span>
+                  </td>
+                  <td><%= user.fechaRegistro.toLocaleDateString() %></td>
+                  <td class="actions-cell">
+                    <div class="table-actions">
+                      <a href="/usuarios/<%= user._id %>" class="btn btn-sm btn-outline" title="Ver perfil">
+                        <i class="fas fa-user"></i>
+                      </a>
+                      <a href="/usuarios/<%= user._id %>/editar" class="btn btn-sm" title="Editar">
+                        <i class="fas fa-edit"></i>
+                      </a>
+                      <% if (user._id.toString() !== userLogged.id) { %>
+                        <form action="/usuarios/<%= user._id %>?_method=DELETE" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar a este usuario? Esta acción eliminará también todos sus pasteles y no se puede deshacer.');">
+                          <button type="submit" class="btn btn-sm btn-danger" title="Eliminar">
+                            <i class="fas fa-trash-alt"></i>
+                          </button>
+                        </form>
+                      <% } %>
+                    </div>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </section>
+  <% }
+}) %>

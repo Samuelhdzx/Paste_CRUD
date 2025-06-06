@@ -1,0 +1,75 @@
+<%- include('../layout/main', { 
+  title: `Perfil de ${user.nombre}`,
+  body: function() { %>
+    <section class="profile-section">
+      <div class="profile-container">
+        <div class="profile-header">
+          <div class="profile-avatar">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="profile-title">
+            <h1><%= user.nombre %></h1>
+            <span class="badge <%= user.rol === 'admin' ? 'badge-admin' : 'badge-user' %>">
+              <%= user.rol === 'admin' ? 'Administrador' : 'Usuario' %>
+            </span>
+          </div>
+        </div>
+        
+        <% if (locals.session && locals.session.passwordChanged) { %>
+          <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i>
+            Contraseña actualizada correctamente
+          </div>
+          <% } %>
+        
+        <div class="profile-details">
+          <div class="detail-item">
+            <span class="detail-label">Email:</span>
+            <span class="detail-value"><%= user.email %></span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="detail-label">Fecha de registro:</span>
+            <span class="detail-value"><%= user.fechaRegistro.toLocaleDateString() %></span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="detail-label">Pasteles creados:</span>
+            <span class="detail-value"><%= pastriesCount %></span>
+          </div>
+        </div>
+        
+        <div class="profile-actions">
+          <% if (isOwnProfile) { %>
+            <a href="/usuarios/<%= user._id %>/editar" class="btn btn-primary">
+              <i class="fas fa-user-edit"></i> Editar Perfil
+            </a>
+            <a href="/usuarios/<%= user._id %>/cambiar-password" class="btn btn-outline">
+              <i class="fas fa-lock"></i> Cambiar Contraseña
+            </a>
+            <a href="/pasteles/mis-pasteles" class="btn btn-outline">
+              <i class="fas fa-birthday-cake"></i> Mis Pasteles
+            </a>
+          <% } else { %>
+            <a href="/usuarios/<%= user._id %>/editar" class="btn btn-primary">
+              <i class="fas fa-user-edit"></i> Editar Usuario
+            </a>
+            <a href="/pasteles?creador=<%= user._id %>" class="btn btn-outline">
+              <i class="fas fa-birthday-cake"></i> Ver Pasteles
+            </a>
+          <% } %>
+        </div>
+        
+        <% if (locals.isAdmin && !isOwnProfile) { %>
+          <div class="admin-actions">
+            <form action="/usuarios/<%= user._id %>?_method=DELETE" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar a este usuario? Esta acción eliminará también todos sus pasteles y no se puede deshacer.');">
+              <button type="submit" class="btn btn-danger">
+                <i class="fas fa-user-times"></i> Eliminar Usuario
+              </button>
+            </form>
+          </div>
+        <% } %>
+      </div>
+    </section>
+  <% } 
+}) %>

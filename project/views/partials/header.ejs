@@ -1,0 +1,41 @@
+<header class="header">
+  <div class="container">
+    <div class="header-content">
+      <a href="/" class="logo">
+        <i class="fas fa-birthday-cake"></i>
+        <span>Dulce Delicia</span>
+      </a>
+      
+      <nav class="nav">
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+          <i class="fas fa-bars"></i>
+        </button>
+        
+        <ul class="menu" id="mainMenu">
+          <li><a href="/pasteles">Pasteles</a></li>
+          <% if (locals.isAuthenticated) { %>
+            <li><a href="/pasteles/mis-pasteles">Mis Pasteles</a></li>
+            <li><a href="/pasteles/crear">Nuevo Pastel</a></li>
+            <% if (locals.isAdmin) { %>
+              <li><a href="/usuarios">Usuarios</a></li>
+            <% } %>
+            <li class="user-menu">
+              <button class="user-btn">
+                <i class="fas fa-user"></i>
+                <%= locals.user.nombre %>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href="/usuarios/<%= locals.user.id %>">Perfil</a></li>
+                <li><a href="/logout">Cerrar Sesión</a></li>
+              </ul>
+            </li>
+          <% } else { %>
+            <li><a href="/login" class="btn btn-primary">Iniciar Sesión</a></li>
+            <li><a href="/registro" class="btn btn-outline">Registro</a></li>
+          <% } %>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
